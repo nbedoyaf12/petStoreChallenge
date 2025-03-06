@@ -1,6 +1,7 @@
 package stepDefinitions;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import POJOs.Category;
+import POJOs.Tag;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,7 +14,6 @@ import org.testng.Assert;
 import services.PetService;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,13 +34,14 @@ public class PetStepDefinitions {
     public PetStepDefinitions(TestContext testContext) {
         this.testContext = testContext;
     }
+
     @Given("The user wants to consult the pets with the following {string}")
     public void theUserWantsToConsultThePetsWithTheFollowing(String petStatus) {
         this.petStatus = petStatus.toLowerCase();
     }
 
     @When("A GET request is sent to \\/pet\\/findByStatus")
-    public void aGETRequestIsSentToPetFindByStatus() throws JsonProcessingException {
+    public void aGETRequestIsSentToPetFindByStatus() {
         Response response = petService.getPetsStatus(this.petStatus);
         testContext.setResponse(response);
     }
@@ -54,7 +55,6 @@ public class PetStepDefinitions {
     @And("The response should contain pets with status {string}")
     public void theResponseShouldContainPetsWithStatus(String expectedStatus) {
         List<Map<String, Object>> pets = testContext.getResponse().jsonPath().getList("$");
-
         Assert.assertFalse(pets.isEmpty(), "Response should not be empty");
         for (Map<String, Object> pet : pets) {
             Assert.assertEquals(pet.get("status"), expectedStatus, "Pet status is not correct");
@@ -68,7 +68,7 @@ public class PetStepDefinitions {
     }
 
     @When("A GET request is sent to \\/pet\\/\\{petId}")
-    public void aGETRequestIsSentToPetPetId() throws JsonProcessingException {
+    public void aGETRequestIsSentToPetPetId() {
         logger.info(this.getPetId);
         Response response = petService.getPetId(this.getPetId);
         testContext.setResponse(response);
@@ -91,7 +91,7 @@ public class PetStepDefinitions {
     }
 
     @When("A POST request is sent to \\/pet\\/\\{petId}\\/uploadImage")
-    public void aPOSTRequestIsSentToPetPetIdUploadImage() throws JsonProcessingException {
+    public void aPOSTRequestIsSentToPetPetIdUploadImage() {
         Response response = petService.postUploadImage(this.getPetId, this.imageFile, "");
         testContext.setResponse(response);
     }
@@ -99,20 +99,18 @@ public class PetStepDefinitions {
     @Given("The user wants to create a pet with an image from {string} and name {string}")
     public void theUserWantsToCreateAPetWithAnImageFromAndName(String imagePath, String petName) {
         this.randomPetId = PetService.createRandomPetId();
-        Map<String, Object> category = Map.of("id", 0, "name", "string");
-        List<Map<String, Object>> tags = List.of(Map.of("id", 0, "name", "Friendly"));
         this.pet = new Pet(
                 randomPetId,
-                category,
+                new Category(1, "Dogs"),
                 petName,
                 List.of(imagePath),
-                tags,
+                List.of(new Tag(1, "Friendly")),
                 "available"
         );
     }
 
     @When("A POST request is sent to \\/pet")
-    public void aPOSTRequestIsSentToPet() throws IOException {
+    public void aPOSTRequestIsSentToPet() {
         Response response = petService.postPet(this.pet);
         testContext.setResponse(response);
     }
@@ -132,48 +130,32 @@ public class PetStepDefinitions {
     }
 
     @When("A PUT request is sent to \\/pet")
-    public void aPUTRequestIsSentToPet() throws IOException {
-        Response response = petService.putPet( this.pet);
+    public void aPUTRequestIsSentToPet() {
+        Response response = petService.putPet(this.pet);
         testContext.setResponse(response);
     }
 
     @Given("The user wants to update a pet assigned to the id {string} with imagePath {string}, name {string} and status {string}")
     public void theUserWantsToUpdateAPetAssignedToTheIdWithImagePathNameAndStatus(String petId, String imagePath, String newName, String newStatus) {
-        Map<String, Object> category = Map.of("id", 0, "name", "string");
-        List<Map<String, Object>> tags = List.of(Map.of("id", 0, "name", "Friendly"));
         this.pet = new Pet(
                 Integer.parseInt(petId),
-                category,
+                new Category(1, "Dogs"),
                 newName,
                 List.of(imagePath),
-                tags,
+                List.of(new Tag(1, "Friendly")),
                 newStatus
         );
     }
 
-    @And("The response should contains the pet updated with imagePath {string}, name {string} and status {string}")
-    public void theResponseShouldContainsThePetUpdatedWithImagePathNameAndStatus(String imagePath, String petName, String petStatus) {
-        Map<String, Object> petResponse = testContext.getResponse().jsonPath().getMap("$");
-
-        String responsePetName = (String) petResponse.get("name");
-        String responsePetStatus = (String) petResponse.get("status");
-        Assert.assertEquals(responsePetName, petName, "The pet name is not correct");
-        Assert.assertEquals(responsePetStatus, petStatus, "The pet status is not correct");
-
-        List<String> photoUrlsList = (List<String>) petResponse.get("photoUrls");
-        Assert.assertFalse(photoUrlsList.isEmpty(), "The photoUrls list is empty");
-        Assert.assertEquals(photoUrlsList.get(0), imagePath, "The pet image path is not correct");
-    }
-
     @Given("The user wants to update a pet with id {string} with name {string} and status {string}")
     public void theUserWantsToUpdateAPetWithIdWithNameAndStatus(String petId, String petName, String petStatus) {
-        this.getPetId= petId;
-        this.petName= petName;
-        this.petStatus= petStatus;
+        this.getPetId = petId;
+        this.petName = petName;
+        this.petStatus = petStatus;
     }
 
     @When("A POST request is sent to \\/pet\\/\\{petId}")
-    public void aPOSTRequestIsSentToPetPetId() throws JsonProcessingException {
+    public void aPOSTRequestIsSentToPetPetId() {
         Map<String, Object> formData = new HashMap<>();
         formData.put("name", this.petName);
         formData.put("status", this.petStatus);
@@ -188,12 +170,26 @@ public class PetStepDefinitions {
 
     @Given("The user wants to delete the pet with id {string}")
     public void theUserWantsToDeleteThePetWithId(String petId) {
-        this.getPetId=petId;
+        this.getPetId = petId;
     }
 
     @When("A DELETE request is sent to \\/pet\\/\\{petId}")
-    public void aDELETERequestIsSentToPetPetId() throws JsonProcessingException {
-        Response response = petService.deletePet( this.getPetId);
+    public void aDELETERequestIsSentToPetPetId() {
+        Response response = petService.deletePet(this.getPetId);
         testContext.setResponse(response);
+    }
+
+    @And("The response should contain the pet updated with imagePath {string}, name {string} and status {string}")
+    public void theResponseShouldContainThePetUpdatedWithImagePathNameAndStatus(String imagePath, String petName, String petStatus) {
+        Map<String, Object> petResponse = testContext.getResponse().jsonPath().getMap("$");
+
+        String responsePetName = (String) petResponse.get("name");
+        String responsePetStatus = (String) petResponse.get("status");
+        Assert.assertEquals(responsePetName, petName, "The pet name is not correct");
+        Assert.assertEquals(responsePetStatus, petStatus, "The pet status is not correct");
+
+        List<String> photoUrlsList = (List<String>) petResponse.get("photoUrls");
+        Assert.assertFalse(photoUrlsList.isEmpty(), "The photoUrls list is empty");
+        Assert.assertEquals(photoUrlsList.get(0), imagePath, "The pet image path is not correct");
     }
 }

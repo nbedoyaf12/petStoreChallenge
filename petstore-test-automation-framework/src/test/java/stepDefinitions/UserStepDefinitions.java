@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 public class UserStepDefinitions {
     private static final Logger logger = LoggerFactory.getLogger(PetStepDefinitions.class);
 
@@ -33,14 +35,14 @@ public class UserStepDefinitions {
     @Given("The user wants to creates a list of {string} users")
     public void theUserWantsToCreatesAListOfUsers(String usersNumber) {
         this.usersList = new ArrayList<>();
-        for (int i = 0; i < Integer.parseInt(usersNumber); i++) {
+        for (int i = 0; i < parseInt(usersNumber); i++) {
             usersList.add(new User(i, "name" + i, "firstName" + i, "lastName" + i, "email" + i + "@mail.com", "123" + i, "100200" + i, i));
             logger.info(String.valueOf(usersList.get(i).getId()));
         }
     }
 
     @When("A POST request is sent to \\/user\\/createWithList")
-    public void aPOSTRequestIsSentToUserCreateWithList() throws IOException {
+    public void aPOSTRequestIsSentToUserCreateWithList() {
         Response response = userService.postListOfUsers(this.usersList);
         testContext.setResponse(response);
     }
@@ -51,7 +53,7 @@ public class UserStepDefinitions {
     }
 
     @When("A GET request is sent to \\/user\\/\\{username}")
-    public void aGETRequestIsSentToUserUsername() throws JsonProcessingException {
+    public void aGETRequestIsSentToUserUsername() {
         Response response = userService.getUserByUsername(this.username);
         testContext.setResponse(response);
     }
@@ -68,7 +70,7 @@ public class UserStepDefinitions {
     }
 
     @When("A PUT request is sent to \\/user\\/\\{username}")
-    public void aPUTRequestIsSentToUserUsername() throws IOException {
+    public void aPUTRequestIsSentToUserUsername() {
         Response response = userService.putUser(this.user, this.username);
         testContext.setResponse(response);
     }
@@ -97,7 +99,7 @@ public class UserStepDefinitions {
     }
 
     @When("A DELETE request is sent to \\/user\\/\\{username}")
-    public void aDELETERequestIsSentToUserUsername() throws JsonProcessingException {
+    public void aDELETERequestIsSentToUserUsername() {
         Response response = userService.deleteUserByUsername(this.username);
         testContext.setResponse(response);
     }
@@ -109,14 +111,14 @@ public class UserStepDefinitions {
     }
 
     @When("A GET request is sent to \\/user\\/login")
-    public void aGETRequestIsSentToUserLogin() throws JsonProcessingException {
+    public void aGETRequestIsSentToUserLogin() {
         Response response = userService.getUserLogin(this.username, this.password);
         testContext.setResponse(response);
     }
 
     @Given("The user wants to creates an array of {string} users")
     public void theUserWantsToCreatesAnArrayOfUsers(String usersNumber) {
-        int usersNumberArray = Integer.parseInt(usersNumber);
+        int usersNumberArray = parseInt(usersNumber);
         this.usersArray = new User[usersNumberArray];
         for (int i = 0; i < usersNumberArray; i++) {
             usersArray[i] = new User(i, "name" + i, "firstName" + i, "lastName" + i, "email" + i + "@mail.com", "123" + i, "100200" + i, i);
@@ -124,19 +126,47 @@ public class UserStepDefinitions {
     }
 
     @When("A POST request is sent to \\/user\\/createWithArray")
-    public void aPOSTRequestIsSentToUserCreateWithArray() throws IOException {
+    public void aPOSTRequestIsSentToUserCreateWithArray() {
         Response response = userService.postArrayOfUsers(this.usersArray);
         testContext.setResponse(response);
     }
 
     @When("A POST request is sent to \\/user")
-    public void aPOSTRequestIsSentToUser() throws IOException {
+    public void aPOSTRequestIsSentToUser() {
         Response response = userService.postUser(this.user);
         testContext.setResponse(response);
     }
 
     @Given("The user wants to creates an user")
     public void theUserWantsToCreatesAnUser() {
-        this.user= new User(0, "user2", "firstName2", "lastName2", "email2@mail.com", "pass2", "300000002", 2);
+        this.user = new User(0, "user2", "firstName2", "lastName2", "email2@mail.com", "pass2", "300000002", 2);
+    }
+
+    @When("A POST request is sent to \\/user\\/{string}")
+    public void aPOSTRequestIsSentToUserMethod(String method) {
+        Response response= null;
+        if (method.contains("createWithList")) {
+            response = userService.postListOfUsers(this.usersList);
+        } else if (method.contains("createWithArray")) {
+            response = userService.postArrayOfUsers(this.usersArray);
+        }
+        testContext.setResponse(response);
+    }
+
+    @Given("The user wants to create {string} users using {string}")
+    public void theUserWantsToCreateUsersUsing(String usersNumber, String method) {
+        int usersNumberFromatted = parseInt(usersNumber);
+        if (method.contains("createWithList")) {
+            this.usersList = new ArrayList<>();
+            for (int i = 0; i < usersNumberFromatted; i++) {
+                usersList.add(new User(i, "name" + i, "firstName" + i, "lastName" + i, "email" + i + "@mail.com", "123" + i, "100200" + i, i));
+                logger.info(String.valueOf(usersList.get(i).getId()));
+            }
+        } else if (method.contains("createWithArray")) {
+            this.usersArray = new User[usersNumberFromatted];
+            for (int i = 0; i < usersNumberFromatted; i++) {
+                usersArray[i] = new User(i, "name" + i, "firstName" + i, "lastName" + i, "email" + i + "@mail.com", "123" + i, "100200" + i, i);
+            }
+        }
     }
 }
