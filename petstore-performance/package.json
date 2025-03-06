@@ -1,0 +1,12 @@
+{
+  "name": "petstore-performance",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test:k6": "for file in tests/*.js; do k6 run \"$file\"; done"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
