@@ -11,6 +11,15 @@ Feature: Pet API Validations
       | pending   |
       | sold      |
 
+  Scenario Outline: Validates searching for a deleted pet
+    Given The user wants to search an specific id "<petId>"
+    When A GET request is sent to /pet/{petId}
+    Then The response status code should be 404
+    And The response should have a message with "Pet not found"
+    Examples:
+      | petId |
+      | 000  |
+
   Scenario Outline: Validates pet id endpoint
     Given The user wants to search an specific id "<petId>"
     When A GET request is sent to /pet/{petId}
@@ -44,7 +53,7 @@ Feature: Pet API Validations
       | petId | imagePath                  | petName | status  |
       | 1230  | src/main/resources/dog.jpg | sam     | pending |
 
-  Scenario Outline: Validates update a pet in the store with form data endpoint
+  Scenario Outline: Validates update a pet in the store with form data
     Given The user wants to update a pet with id "<petId>" with name "<newName>" and status "<newStatus>"
     When A POST request is sent to /pet/{petId}
     Then The response status code should be 200
@@ -61,19 +70,13 @@ Feature: Pet API Validations
     Examples:
       | petId |
       | 1230  |
-#  Scenario Outline: Validate incorrect pet data submission
-#    Given The user wants to create a pet with missing "<field>"
-#    When A POST request is sent to /pet
-#    Then The response status code should be 400
-#    And The response should contain an error message "<errorMessage>"
-#    Examples:
-#      | field      | errorMessage                 |
-#      | petName    | Pet name is required        |
-#      | category   | Category field is required  |
-#      | photoUrls  | At least one photo is needed |
-#
-#  Scenario: Validates searching for a deleted pet
-#    Given The user wants to search a specific id "1230"
-#    When A GET request is sent to /pet/{petId}
-#    Then The response status code should be 404
-#    And The response should contain an error message "Pet not found"
+
+  Scenario Outline: Validates update a pet in the store with wrong data
+    Given The user wants to update a pet with id "<petId>" with name "<newName>" and status "<newStatus>"
+    When A POST request is sent to /pet/{petId}
+    Then The response status code should be 404
+    And The response should have a message with "not found"
+    Examples:
+      | petId | newName  | newStatus |
+      | 1230  | Luquitas | available |
+

@@ -16,11 +16,12 @@ public class StoreService extends BaseService {
 
     public Response postOrder(Order orderInformation) {
         logger.info("Sending request to: /store/order");
+        logger.info(orderInformation.toString());
         return sendRequest(Method.POST, "/store/order", null, null, null, null, orderInformation, ContentType.JSON);
     }
 
     public Response getOrderById(String orderId) {
-        logger.info("Sending request to: /store/order"+orderId);
+        logger.info("Sending request to: /store/order/"+orderId);
         return sendRequest(Method.GET, "/store/order/{orderId}", Map.of("orderId", orderId), null, null, null, null, null);
     }
 

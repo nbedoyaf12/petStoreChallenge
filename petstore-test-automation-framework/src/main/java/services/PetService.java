@@ -38,7 +38,7 @@ public class PetService extends BaseService {
 
     public Response updatePostPet(String petId, Object body) {
         logger.info("Sending request to: /pet/"+petId);
-        return sendRequest(Method.POST, "/pet/{petId}", Map.of("petId", petId), null, null, null, null, ContentType.URLENC);
+        return sendRequest(Method.POST, "/pet/{petId}", Map.of("petId", petId), null, null, null, body, ContentType.URLENC);
     }
 
     public Response deletePet(String petId) {
