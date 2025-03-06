@@ -1,6 +1,8 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
+import { handleSummary } from '../summary.js';
+
 
 export const options = {
     stages: [
@@ -28,6 +30,7 @@ export default function () {
         'response time < 500ms': (r) => r.timings.duration < 500,
         'order id is valid': (r) => JSON.parse(r.body).id === order.id,
     });
-    
+
     sleep(1);
 }
+export { handleSummary };

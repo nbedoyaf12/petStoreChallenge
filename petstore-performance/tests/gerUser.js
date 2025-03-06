@@ -1,5 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
+import { handleSummary } from '../summary.js';
+
 
 export let options = {
     stages: [
@@ -20,3 +22,5 @@ export default function () {
     
     sleep(1); 
 }
+
+export { handleSummary };

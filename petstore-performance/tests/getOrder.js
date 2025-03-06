@@ -1,5 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
+import { handleSummary } from '../summary.js';
+
 
 const orderIds = [1, 2, 3, 4, 5];  
 
@@ -20,3 +22,4 @@ export default function () {
         sleep(1);
     });
 }
+export { handleSummary };

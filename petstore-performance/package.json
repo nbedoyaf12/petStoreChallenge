@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test:k6": "for file in tests/*.js; do k6 run \"$file\"; done"
+    "test:k6": "k6 run --out json=report.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "k6-html-reporter": "^1.0.5"
+  }
 }

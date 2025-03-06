@@ -1,6 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { randomString } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+import { handleSummary } from '../summary.js';
 
 export const options = {
   stages: [
@@ -40,3 +41,4 @@ export default function () {
 
   sleep(1);
 }
+export { handleSummary };
