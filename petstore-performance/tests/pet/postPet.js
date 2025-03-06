@@ -11,8 +11,8 @@ export const options = {
 const validPet = {
     id: Math.floor(Math.random() * 1000000),
     category: { id: 1, name: "Dog" },
-    name: "Rocky",
-    photoUrls: ["https://example.com/dog.jpg"],
+    name: "Luquitas",
+    photoUrls: ["https://humanidades.com/wp-content/uploads/2017/02/perro-1-e1561678907722.jpg"],
     tags: [{ id: 1, name: "friendly" }],
     status: "available"
 };
