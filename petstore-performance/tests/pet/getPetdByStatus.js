@@ -1,7 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
-import { getStatus } from '../utils/data.js';
-import { handleSummary } from '../summary.js';
+import { getStatus } from '../../utils/data.js';
+import { handleSummary } from '../../summary.js';
 
 
 export const options = {

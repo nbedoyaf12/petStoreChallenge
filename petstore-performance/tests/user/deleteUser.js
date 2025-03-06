@@ -1,6 +1,6 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
-import { handleSummary } from '../summary.js';
+import { handleSummary } from '../../summary.js';
 
 
 const usernames = ['user1', 'user2', 'user3', 'user4', 'user5', 'nonexistentUser'];
