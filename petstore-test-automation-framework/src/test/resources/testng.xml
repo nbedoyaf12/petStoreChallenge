@@ -3,6 +3,8 @@
     <test name="APIs Tests">
         <classes>
             <class name="runners.CucumberPetTests"/>
+            <class name="runners.CucumberStoreTests"/>
+            <class name="runners.CucumberUserTests"/>
         </classes>
     </test>
 </suite>

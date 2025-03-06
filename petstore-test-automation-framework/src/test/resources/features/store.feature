@@ -12,14 +12,23 @@ Feature: Store API validations
     Then The response status code should be 200
     And The response should have the order information
 
-  Scenario: Validates order by id endpoint
-    Given The user wants to search the order id "5"
+  Scenario Outline: Validates order by id endpoint
+    Given The user wants to search the order id "<orderId>"
     When A GET request is sent to /store/order/{orderId}
     Then The response status code should be 200
-    And The response should have the id "5"
+    And The response should have the id "<orderId>"
+    Examples:
+    Examples:
+      | orderId |
+      | 5       |
+      | 10      |
 
-  Scenario: Validates delete an order by id endpoint
-    Given The user wants to delete the order with id "2"
+  Scenario Outline: Validates delete an order by id endpoint
+    Given The user wants to delete the order with id "<orderId>"
     When A DELETE request is sent to /store/order/{orderId}
     Then The response status code should be 200
-    And The response should have a message with "2"
+    And The response should have a message with "<orderId>"
+    Examples:
+      | orderId |
+      | 2       |
+      | 8       |

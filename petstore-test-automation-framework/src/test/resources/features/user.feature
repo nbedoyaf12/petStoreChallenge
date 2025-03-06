@@ -1,16 +1,29 @@
 Feature: Store API validations
 
-  Scenario: Validates creates user list endpoint
-    Given The user wants to creates a list of "3" users
-    When A POST request is sent to /user/createWithList
+  Scenario Outline: Validates create multiple users endpoints
+    Given The user wants to create "<usersNumber>" users using "<method>"
+    When A POST request is sent to /user/"<method>"
     Then The response status code should be 200
     And The response should have a message with "ok"
+    Examples:
+      | usersNumber | method          |
+      | 3           | createWithList  |
+      | 2           | createWithArray |
 
-  Scenario: Validates search user by name endpoint
-    Given The user wants to search the username "user1"
+  Scenario: Validates creates user endpoint
+    Given The user wants to creates an user
+    When A POST request is sent to /user
+    Then The response status code should be 200
+    And The response should have a message with userid
+
+  Scenario Outline: Validates search user by name endpoint
+    Given The user wants to search the username "<username>"
     When A GET request is sent to /user/{username}
     Then The response status code should be 200
-    And The response should have the username "user1"
+    And The response should have the username "<username>"
+    Examples:
+      | username |
+      | user1    |
 
   Scenario: Validates update an existing user endpoint
     Given The user wants to update an user with the name "user1"
@@ -18,11 +31,14 @@ Feature: Store API validations
     Then The response status code should be 200
     And The response should have a message with userid
 
-  Scenario: Validates delete an user by username endpoint
-    Given The user wants to delete the user with name "user2"
+  Scenario Outline: Validates delete an user by username endpoint
+    Given The user wants to delete the user with name "<username>"
     When A DELETE request is sent to /user/{username}
     Then The response status code should be 200
-    And The response should have a message with "user2"
+    And The response should have a message with "<username>"
+    Examples:
+      | username |
+      | user1    |
 
   Scenario: Validates login user endpoint
     Given The user wants to logs user into the system with the username "user1" and password "1230"
@@ -30,14 +46,3 @@ Feature: Store API validations
     Then The response status code should be 200
     And The response should have a message with "logged in user session:"
 
-  Scenario: Validates creates user array endpoint
-    Given The user wants to creates an array of "3" users
-    When A POST request is sent to /user/createWithArray
-    Then The response status code should be 200
-    And The response should have a message with "ok"
-
-  Scenario: Validates creates user endpoint
-    Given The user wants to creates an user
-    When A POST request is sent to /user
-    Then The response status code should be 200
-    And The response should have a message with userid

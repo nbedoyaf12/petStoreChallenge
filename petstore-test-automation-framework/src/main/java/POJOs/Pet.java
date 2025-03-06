@@ -1,28 +1,19 @@
 package POJOs;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
-import java.util.Map;
 
 public class Pet {
-    @JsonProperty("id")
     private int id;
-    @JsonProperty("category")
-    private Map<String, Object> category;
-    @JsonProperty("name")
+    private Category category;
     private String name;
-    @JsonProperty("photoUrls")
     private List<String> photoUrls;
-    @JsonProperty("tags")
-    private List<Map<String, Object>> tags;
-    @JsonProperty("status")
-    private String status; // "available", "pending", "sold"
+    private List<Tag> tags;
+    private String status;
 
     public Pet() {
     }
 
-    public Pet(int id, Map<String, Object> category, String name, List<String> photoUrls, List<Map<String, Object>> tags, String status) {
+    public Pet(int id, Category category, String name, List<String> photoUrls, List<Tag> tags, String status) {
         this.id = id;
         this.category = category;
         this.name = name;
@@ -39,11 +30,11 @@ public class Pet {
         this.id = id;
     }
 
-    public Map<String, Object> getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Map<String, Object> category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -63,11 +54,11 @@ public class Pet {
         this.photoUrls = imagePath;
     }
 
-    public List<Map<String, Object>> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<Map<String, Object>> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 

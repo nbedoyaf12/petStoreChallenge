@@ -7,6 +7,8 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Map;
@@ -15,6 +17,7 @@ import static io.restassured.RestAssured.given;
 
 
 public class BaseService {
+    protected static final Logger logger = LoggerFactory.getLogger(BaseService.class);
 
     protected static final String BASE_URL = "https://petstore.swagger.io/v2";
 
@@ -32,8 +35,9 @@ public class BaseService {
                                    File file,
                                    String additionalMetadata,
                                    Object body,
-                                   ContentType contentType) throws JsonProcessingException {
+                                   ContentType contentType) {
         RequestSpecification requestSpecification = getRequestSpec();
+
         if (pathParams != null) {
             requestSpecification.pathParams(pathParams);
         }
@@ -47,9 +51,13 @@ public class BaseService {
             requestSpecification.multiPart("additionalMetadata", additionalMetadata);
         }
         if (body != null) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            String json = objectMapper.writeValueAsString(body);
-            requestSpecification.body(json);
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                String json = objectMapper.writeValueAsString(body);
+                requestSpecification.body(json);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("Error serializing request body", e);
+            }
         }
         if (contentType != null) {
             requestSpecification.contentType(contentType);
@@ -57,5 +65,4 @@ public class BaseService {
 
         return given().spec(requestSpecification).when().request(method, endpoint);
     }
-
 }

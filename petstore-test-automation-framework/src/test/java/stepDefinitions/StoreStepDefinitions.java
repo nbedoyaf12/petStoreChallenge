@@ -1,6 +1,5 @@
 package stepDefinitions;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -10,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import services.StoreService;
-
-import java.io.IOException;
 
 public class StoreStepDefinitions {
     private static final Logger logger = LoggerFactory.getLogger(PetStepDefinitions.class);
@@ -26,7 +23,7 @@ public class StoreStepDefinitions {
     }
 
     @When("A GET request is sent to \\/store\\/inventory")
-    public void aGETRequestIsSentToStoreInventory() throws JsonProcessingException {
+    public void aGETRequestIsSentToStoreInventory() {
         Response response = storeService.getStoreInventory();
         testContext.setResponse(response);
     }
@@ -54,7 +51,7 @@ public class StoreStepDefinitions {
     }
 
     @When("A POST request is sent to \\/store\\/order")
-    public void aPOSTRequestIsSentToStoreOrder() throws IOException {
+    public void aPOSTRequestIsSentToStoreOrder() {
         Response response = storeService.postOrder(this.order);
         testContext.setResponse(response);
     }
@@ -76,18 +73,18 @@ public class StoreStepDefinitions {
     }
 
     @When("A GET request is sent to \\/store\\/order\\/\\{orderId}")
-    public void aGETRequestIsSentToStoreOrderOrderId() throws JsonProcessingException {
+    public void aGETRequestIsSentToStoreOrderOrderId() {
         Response response = storeService.getOrderById(this.orderId);
         testContext.setResponse(response);
     }
 
     @Given("The user wants to delete the order with id {string}")
     public void theUserWantsToDeleteTheOrderWithId(String orderId) {
-        this.orderId=orderId;
+        this.orderId = orderId;
     }
 
     @When("A DELETE request is sent to \\/store\\/order\\/\\{orderId}")
-    public void aDELETERequestIsSentToStoreOrderOrderId() throws JsonProcessingException {
+    public void aDELETERequestIsSentToStoreOrderOrderId() {
         Response response = storeService.deleteOrderById(this.orderId);
         testContext.setResponse(response);
     }
