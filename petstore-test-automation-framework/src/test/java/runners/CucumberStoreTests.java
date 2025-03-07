@@ -6,7 +6,9 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
         features = "src/test/resources/features/store.feature",
         glue = "stepDefinitions",
-        plugin = {"pretty", "html:target/pet-store-tests-report.html"}
-)
+        plugin = {
+                "pretty",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
+        })
 public class CucumberStoreTests extends AbstractTestNGCucumberTests {
 }

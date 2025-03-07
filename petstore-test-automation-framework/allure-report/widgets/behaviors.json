@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"34fadfa9bacb83cd5b42e6cab39b4fc3","name":"Store API validations","statistic":{"failed":7,"broken":0,"skipped":0,"passed":4,"unknown":0,"total":11}},{"uid":"846d39b566225470f9f44f04a3c69979","name":"Pet API Validations","statistic":{"failed":2,"broken":0,"skipped":0,"passed":7,"unknown":0,"total":9}}]}
