@@ -10,7 +10,7 @@ export const options = {
 };
 
 export default function () {
-    const res = http.get(`https://petstore.swagger.io/v2/pet/findByStatus?status=${getStatus()}`);
+    const res = http.get(`http://localhost:8080/api/v3/pet/findByStatus?status=${getStatus()}`);
     check(res, {
         'is status 200': (r) => r.status === 200,
         'response time < 500ms': (r) => r.timings.duration < 500,

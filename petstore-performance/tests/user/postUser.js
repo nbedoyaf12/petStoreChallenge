@@ -13,8 +13,6 @@ export const options = {
 };
 
 export default function () {
-  const url = 'https://petstore.swagger.io/v2/user';
-
   const payload = JSON.stringify({
     id: Math.floor(Math.random() * 1000000),
     username: `name${randomString(5)}`,
@@ -32,7 +30,7 @@ export default function () {
     }
   };
 
-  const res = http.post(url, payload, params);
+  const res = http.post('http://localhost:8080/api/v3/user', payload, params);
 
   check(res, {
     'is status 200 or 201': (r) => r.status === 200 || r.status === 201,

@@ -13,7 +13,7 @@ export let options = {
 
 export default function () {
     let username = 'testuser';  
-    let res = http.get(`https://petstore.swagger.io/v2/user/${username}`);
+    let res = http.get(`http://localhost:8080/api/v3/user/${username}`);
     
     check(res, {
         'status is 200': (r) => r.status === 200,

@@ -11,7 +11,7 @@ export const options = {
 
 export default function () {
     orderIds.forEach((id) => {
-        const res = http.del(`https://petstore.swagger.io/v2/store/order/${id}`);
+        const res = http.del(`http://localhost:8080/api/v3/store/order/${id}`);
 
         check(res, {
             'is status 200 or 404': (r) => r.status === 200 || r.status === 404,

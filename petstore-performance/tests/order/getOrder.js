@@ -12,7 +12,7 @@ export const options = {
 
 export default function () {
     orderIds.forEach((id) => {
-        const res = http.get(`https://petstore.swagger.io/v2/store/order/${id}`);
+        const res = http.get(`http://localhost:8080/api/v3/store/order/${id}`);
 
         check(res, {
             'is status 200': (r) => r.status === 200,

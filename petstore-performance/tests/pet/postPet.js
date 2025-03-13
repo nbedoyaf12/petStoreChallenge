@@ -28,7 +28,7 @@ export default function () {
     const payload = JSON.stringify(isValid ? validPet : invalidPet);
     const params = { headers: { 'Content-Type': 'application/json' } };
 
-    const res = http.post('https://petstore.swagger.io/v2/pet', payload, params);
+    const res = http.post('http://localhost:8080/api/v3/pet', payload, params);
 
     check(res, {
         'is status 200 (valid data)': (r) => isValid ? r.status === 200 : true,

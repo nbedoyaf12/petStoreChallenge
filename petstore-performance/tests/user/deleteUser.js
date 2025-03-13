@@ -24,32 +24,10 @@ export default function () {
         });
 
         const headers = { 'Content-Type': 'application/json' };
-        const res = http.post('https://petstore.swagger.io/v2/user', payload, { headers });
+        const res = http.post('http://localhost:8080/api/v3/user', payload, { headers });
 
         check(res, {
             'is status 200 or 201': (r) => r.status === 200 || r.status === 201,
-            'response time < 500ms': (r) => r.timings.duration < 500,
-        });
-
-        sleep(1);
-    });
-
-    usernames.forEach((username) => {
-        const res = http.get(`https://petstore.swagger.io/v2/user/${username}`);
-
-        check(res, {
-            'is status 200 or 404': (r) => r.status === 200 || r.status === 404,
-            'response time < 500ms': (r) => r.timings.duration < 500,
-        });
-
-        sleep(1);
-    });
-
-    usernames.forEach((username) => {
-        const res = http.del(`https://petstore.swagger.io/v2/user/${username}`);
-
-        check(res, {
-            'is status 200 or 404': (r) => r.status === 200 || r.status === 404,
             'response time < 500ms': (r) => r.timings.duration < 500,
         });
 

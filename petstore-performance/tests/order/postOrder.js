@@ -23,7 +23,7 @@ export default function () {
     };
 
     const headers = { 'Content-Type': 'application/json' };
-    const res = http.post('https://petstore.swagger.io/v2/store/order', JSON.stringify(order), { headers });
+    const res = http.post('http://localhost:8080/api/v3/store/order', JSON.stringify(order), { headers });
 
     check(res, {
         'is status 200': (r) => r.status === 200,
