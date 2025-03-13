@@ -104,6 +104,12 @@ cuando se va a correr el test para analizar diferentes comportamientos.
 - Duración: 10s - 60s.
 - Tasa de solicitudes: Dependiendo del test.
 
+Ejecución:
+comportamiento.
+La prueba se ejecuta 3 veces con diferentes valores de tiempos y VUs para mirar su
+<img width="534" alt="Screenshot 2025-03-12 at 3 50 11 PM" src="https://github.com/user-attachments/assets/cdf49630-b27b-4d04-9823-28704ff60548" />
+
+
 3. Análisis de resultados
 Por temas prácticos se van a analizar los resultados con el endpoint post/user.
 POST /user
