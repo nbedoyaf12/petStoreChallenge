@@ -19,7 +19,7 @@ import static io.restassured.RestAssured.given;
 public class BaseService {
     protected static final Logger logger = LoggerFactory.getLogger(BaseService.class);
 
-    protected static final String BASE_URL = "https://petstore.swagger.io/v2";
+    protected static final String BASE_URL = "http://localhost:8080/api/v3";
 
     protected static RequestSpecification getRequestSpec() {
         return new RequestSpecBuilder()
