@@ -6,9 +6,6 @@ El proyecto está organizado en dos carpetas principales, que incluyen:
 
 - Pruebas automatizadas
 - Pruebas performance
-  
-Dentro de cada carpeta, se encuentra un documento .pdf con la documentación detallada del proyecto. Se recomienda leerlo para comprender mejor la implementación, la metodología utilizada y la verificación del cumplimiento de los requisitos del challenge.
-
 
 **Automation Framework:**
 1. Alcance de las pruebas de automatización
